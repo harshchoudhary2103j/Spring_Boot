@@ -25,7 +25,11 @@ public class PatientServiceTest {
 //        for(CPatientInfo p: patientList){
 //            System.out.println(p);
 //        }
-        int rowsAffected = patientRepository.updatePatientNameWithId("Harsh Choudhary",1L);
-        System.out.println(rowsAffected);
+//        int rowsAffected = patientRepository.updatePatientNameWithId("Harsh Choudhary",1L);
+//        System.out.println(rowsAffected);
+        List<Patient>patientList = patientRepository.findAll();
+        for(Patient p: patientList){
+            System.out.println(p);
+        }
     }
 }
