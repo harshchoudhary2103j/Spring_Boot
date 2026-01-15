@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "subject")
-public class Subject {
+public class Subject extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
