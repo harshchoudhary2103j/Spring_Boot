@@ -4,6 +4,7 @@ import com.Module5.Spring_Security_App.dto.LoginDTO;
 import com.Module5.Spring_Security_App.dto.SignupDTO;
 import com.Module5.Spring_Security_App.dto.UserDTO;
 import com.Module5.Spring_Security_App.entities.User;
+import com.Module5.Spring_Security_App.exceptions.ResourceNotFoundException;
 import com.Module5.Spring_Security_App.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +36,11 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+                .orElseThrow(() -> new BadCredentialsException("Username not found"));
+    }
+
+    public User getUserById(Long userId){
+        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User wit Id not found"+userId));
     }
 
     public UserDTO signup(SignupDTO signupDTO) {
