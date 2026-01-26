@@ -42,6 +42,9 @@ public class UserService implements UserDetailsService {
     public User getUserById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User wit Id not found"+userId));
     }
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
 
     public UserDTO signup(SignupDTO signupDTO) {
         Optional<User>user = userRepository.findByEmail(signupDTO.getEmail());
@@ -55,4 +58,7 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public User save(User newUser) {
+        return userRepository.save(newUser);
+    }
 }

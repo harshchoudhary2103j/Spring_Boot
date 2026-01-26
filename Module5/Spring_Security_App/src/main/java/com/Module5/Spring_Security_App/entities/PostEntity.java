@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class PostEntity extends AuditableEntity{
+public class PostEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,20 +22,7 @@ public class PostEntity extends AuditableEntity{
     private String title;
     private String description;
 
-    @PrePersist
-    void beforeSave() {
 
-    }
-
-    @PreUpdate
-    void beforeUpdate() {
-
-    }
-
-    @PreRemove
-    void beforeDelete() {
-
-    }
 
 
 }

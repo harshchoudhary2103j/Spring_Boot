@@ -43,7 +43,7 @@ try{
         Long userId = jwtService.getUserIdFromToken(token);
         if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             User user = userService.getUserById(userId);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, null);
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             filterChain.doFilter(request, response);
 
