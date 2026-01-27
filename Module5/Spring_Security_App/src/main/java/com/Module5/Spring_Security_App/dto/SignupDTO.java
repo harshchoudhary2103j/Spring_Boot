@@ -1,5 +1,6 @@
 package com.Module5.Spring_Security_App.dto;
 
+import com.Module5.Spring_Security_App.entities.enums.Permission;
 import com.Module5.Spring_Security_App.entities.enums.UserRole;
 import com.nimbusds.oauth2.sdk.Role;
 import lombok.Data;
@@ -12,5 +13,8 @@ public class SignupDTO {
    private String password;
    private String name;
    private Set<UserRole> roles;
+    private Set<Permission>permissions;
+
+
 }
 

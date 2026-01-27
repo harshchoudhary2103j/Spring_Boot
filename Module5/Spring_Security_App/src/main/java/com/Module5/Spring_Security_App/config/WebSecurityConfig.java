@@ -1,9 +1,11 @@
 package com.Module5.Spring_Security_App.config;
 
+import com.Module5.Spring_Security_App.entities.enums.Permission;
 import com.Module5.Spring_Security_App.filter.JwtAuthFilter;
 import com.Module5.Spring_Security_App.handlers.OAuth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -20,6 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.Module5.Spring_Security_App.entities.enums.UserRole.ADMIN;
+import static com.Module5.Spring_Security_App.entities.enums.UserRole.CREATOR;
 
 @Configuration
 @EnableWebSecurity
@@ -39,7 +42,15 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         auth->auth
                                 .requestMatchers(publicRoutes).permitAll()
-                                .requestMatchers("/posts/**").hasRole(ADMIN.name())
+                                .requestMatchers(HttpMethod.GET,"/posts/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/posts/**").hasAnyRole(ADMIN.name(),CREATOR.name())
+                                .requestMatchers(HttpMethod.POST,"/posts/**")
+                                            .hasAnyAuthority(Permission.POST_CREATE.name())
+                                .requestMatchers(HttpMethod.GET,"/posts/**")
+                                .hasAuthority(Permission.POST_VIEW.name())
+                                .requestMatchers(HttpMethod.DELETE,"/posts/**")
+                                .hasAuthority(Permission.POST_DELETE.name())
+
 //
                                 .anyRequest().authenticated()
                 )
