@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ import static com.Module5.Spring_Security_App.entities.enums.UserRole.CREATOR;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
@@ -46,8 +48,6 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/posts/**").hasAnyRole(ADMIN.name(),CREATOR.name())
                                 .requestMatchers(HttpMethod.POST,"/posts/**")
                                             .hasAnyAuthority(Permission.POST_CREATE.name())
-                                .requestMatchers(HttpMethod.GET,"/posts/**")
-                                .hasAuthority(Permission.POST_VIEW.name())
                                 .requestMatchers(HttpMethod.DELETE,"/posts/**")
                                 .hasAuthority(Permission.POST_DELETE.name())
 
