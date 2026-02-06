@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Spring-ai
+
+  profiles:
+    active: local
+
+  ai:
+    ollama:
+      chat:
+        options:
+          model: qwen3:0.6b
+
+    openai:
+      chat:
+        options:
+          model: gpt-4o-mini
+      embedding:
+        options:
+          model: text-embedding-3-small
+
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+
+logging:
+  level:
+    org.springframework.ai:
+      chat.client: DEBUG
