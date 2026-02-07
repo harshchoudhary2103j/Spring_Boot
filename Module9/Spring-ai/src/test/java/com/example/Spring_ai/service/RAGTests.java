@@ -20,4 +20,9 @@ public class RAGTests {
         String res = ragService.askAI("How to connect to my Discord Account?");
         System.out.println(res);
     }
+    @Test
+    public void testAskAIWithAdvisors() {
+        String res = ragService.askAIWithAdvisors("What are your views on Politics?", "Harsh");
+        System.out.println(res);
+    }
 }
