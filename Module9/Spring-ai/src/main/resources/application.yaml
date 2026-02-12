@@ -29,6 +29,10 @@ spring:
             initialize-schema: always
             table-name: chat_memory
 
+    sql:
+      init:
+        mode: always
+
 
 jpa:
   hibernate:
