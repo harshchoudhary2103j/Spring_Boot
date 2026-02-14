@@ -6,6 +6,7 @@ import com.example.CachingApp.exceptions.ResourceNotFoundException;
 import com.example.CachingApp.repositories.EmployeeRepository;
 import com.example.CachingApp.services.EmployeeService;
 import com.example.CachingApp.services.SalaryAccountService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
-//    private final SalaryAccountService salaryAccountService;
+    private final SalaryAccountService salaryAccountService;
     private final ModelMapper modelMapper;
     @Override
     @Cacheable(cacheNames = "employee", key = "#id")
@@ -38,6 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @CachePut(cacheNames = "employee", key = "#result.id")
+    @Transactional
     public EmployeeDto createNewEmployee(EmployeeDto employeeDto) {
         log.info("Creating new employee with email: {}", employeeDto.getEmail());
         List<Employee> existingEmployees = employeeRepository.findByEmail(employeeDto.getEmail());
@@ -49,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee newEmployee = modelMapper.map(employeeDto, Employee.class);
         Employee savedEmployee = employeeRepository.save(newEmployee);
 
-//        salaryAccountService.createAccount(savedEmployee);
+       salaryAccountService.createAccount(savedEmployee);
 
         log.info("Successfully created new employee with id: {}", savedEmployee.getId());
         return modelMapper.map(savedEmployee, EmployeeDto.class);
